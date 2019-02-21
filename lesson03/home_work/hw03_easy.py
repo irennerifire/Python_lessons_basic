@@ -4,14 +4,41 @@
 # Округление должно происходить по математическим правилам (0.6 --> 1, 0.4 --> 0).
 # Для решения задачи не используйте встроенные функции и функции из модуля math.
 
-def my_round(number, ndigits):
-    pass
 
+# Дробная часть вещественного числа равна остатку от его деления на единицу.
+# Целая часть соответственно равна разности самого числа и его дробной части.
+# Чтобы сохранить определенное количество разрядов после запятой число следует
+# сначала сдвинуть влево на соответствующее число разрядов,
+# взять его целую часть и сдвинуть обратно в право на столько же разрядов.
+# Сдвиг влево/вправо реализуется умножением/делением на основание системы счисления,
+# возведенное в степень равную количеству сдвигаемых разрядов.
+from decimal import Decimal
+
+def my_round(num, nd):
+    drob = num/1
+    zel = num - drob
+    sdvig1 = drob*(10**nd)
+    drob_sdv = sdvig1/1
+    zel_sdv = sdvig1 - drob_sdv
+    if drob_sdv >= 0.5:
+        zel_sdv += 1
+        zel_sdv = zel_sdv/(10**nd)+zel
+        zel_sdv = Decimal(zel_sdv)
+        p = abs(zel_sdv.as_tuple().exponent)
+        print(f"Округление с {nd} знаками после запятой числа {num} составило: ")
+        print(('{:.%df}' % p).format(zel_sdv))
+    else:
+        zel_sdv = zel_sdv/(10**nd)+zel
+        print(f"Округление с {nd} знаками после запятой числа {num} составило: {zel_sdv} ")
+
+#СТРОКИ?!!!
 
 print(my_round(2.1234567, 5))
+print(round(2.1234567, 5))
 print(my_round(2.1999967, 5))
 print(my_round(2.9999967, 5))
 
+#round(x, n)
 
 # Задание-2:
 # Дан шестизначный номер билета. Определить, является ли билет счастливым.
@@ -20,7 +47,21 @@ print(my_round(2.9999967, 5))
 # !!!P.S.: функция не должна НИЧЕГО print'ить
 
 def lucky_ticket(ticket_number):
-    pass
+    numstr = str(ticket_number)
+    if numstr.isnumeric() == True:
+        if len(numstr) == 6:
+            l = list(numstr)
+            first = int(l[0]) + int(l[1]) + int(l[2])
+            last =  int(l[3]) + int(l[4]) + int(l[5])
+            if first == last:
+                answer = "Счастливый!"
+            else:
+                answer = "Не счастливый..."
+        else:
+            answer = "Ошибка ввода числа"
+    else:
+        answer = "Ошибка ввода числа"
+    return(answer)
 
 
 print(lucky_ticket(123006))
