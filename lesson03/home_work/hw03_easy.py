@@ -15,30 +15,41 @@
 from decimal import Decimal
 
 def my_round(num, nd):
-    drob = num/1
+    drob = num%1    #**
+    print("drob:    ", drob)
     zel = num - drob
+    print("zel:    ", zel)
     sdvig1 = drob*(10**nd)
-    drob_sdv = sdvig1/1
+    print("sdvig1:    ", sdvig1)
+    drob_sdv = sdvig1%1 #**
+    print("drob_sdv:    ", drob_sdv)
     zel_sdv = sdvig1 - drob_sdv
+    print("zel_sdv:    ", zel_sdv)
     if drob_sdv >= 0.5:
         zel_sdv += 1
-        zel_sdv = zel_sdv/(10**nd)+zel
-        zel_sdv = Decimal(zel_sdv)
-        p = abs(zel_sdv.as_tuple().exponent)
-        print(f"Округление с {nd} знаками после запятой числа {num} составило: ")
-        print(('{:.%df}' % p).format(zel_sdv))
+        zel_sdv1 = zel_sdv/(10**nd)+zel
+        print("zel_sdv cycle:   ", zel_sdv1)
+        #zel_sdv = Decimal(zel_sdv)
+        #print("zel_sdv cycle Decimal    :   ", zel_sdv)
+        #p = abs(zel_sdv.as_tuple().exponent)
+        #print("p:   ", p)
+        print(f"Округление с {nd} знаками после запятой числа {num} составило: {zel_sdv1}")
+        #print(('{:.%df}' % p).format(zel_sdv))
     else:
-        zel_sdv = zel_sdv/(10**nd)+zel
-        print(f"Округление с {nd} знаками после запятой числа {num} составило: {zel_sdv} ")
+        zel_sdv2 = zel_sdv/(10**nd)+zel
+        print(f"Округление с {nd} знаками после запятой числа {num} составило: {zel_sdv2} ")
 
-#СТРОКИ?!!!
 
 print(my_round(2.1234567, 5))
 print(round(2.1234567, 5))
+print("")
 print(my_round(2.1999967, 5))
+print(round(2.1999967, 5))
+print("")
 print(my_round(2.9999967, 5))
+print(round(2.9999967, 5))
+print("")
 
-#round(x, n)
 
 # Задание-2:
 # Дан шестизначный номер билета. Определить, является ли билет счастливым.
