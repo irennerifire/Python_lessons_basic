@@ -96,6 +96,8 @@ do = {#"dir": dir_name,
       "listdir": list_dir,
       "copy": copy_file}
 
+#if __name__ = __main__
+
 try:
     dir_name = sys.argv[2]
 except IndexError:
