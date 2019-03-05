@@ -78,7 +78,6 @@ class Trapecia:
         p = Trapecia.per(self)
         S = m.sqrt(p*(p - storona1)*(p - storona2)*(p - storona3))
 
-
 #Трапеция - фигура, у которой 2 стороны параллельны
 #Параллельность можно определеить по угловым коэффициентам k = (y2 - y1)/(x2 - x1)
     def coeff(a, b):
@@ -93,17 +92,43 @@ class Trapecia:
 
         listcoeff = [ca1a2, ca3a4, ca2a3, ca4a1]
         equal = []
+        osn_a = ""
+        osn_b = ""
+        a = ""
+        b = ""
         print("Угловые коэффициенты:     ", listcoeff)
         for i in range(len(listcoeff)-1):
             for j in range(i+1, len(listcoeff)):
                 if listcoeff[i] == listcoeff[j]:
-                    equal = equal.append(listcoeff[i])
+                    equal = equal.append(listcoeff[j])
                     print(f"Есть одинаковые коэффициенты {listcoeff[i]} с индексом {i} и коэффициент {listcoeff[j]} с индексом {j}")
+                    a = i
+                    b = j
                 else:
                     pass
         if not equal:
             print("Нет равных коэффициентов, а значит, нет параллельных сторон. Т.е. данный четырехугольник не трапеция")
-        return
+        else:
+            if a == 0:
+                osn_a = "a1a2"
+            elif a == 1:
+                osn_a = "a3a4"
+            elif a == 2:
+                osn_a = "a2a3"
+            elif a == 3:
+                osn_a = "a4a1"
 
-trap = Trapecia(x1 = 3, y1 = 4, x2 = 1, y2 = 3, x3 = 4, y3 = 7,  x4 = 6, y4 = 9)
-trap.parall()
+        if not equal:
+            if b == 0:
+                osn_b = "a1a2"
+            elif b == 1:
+                osn_b = "a3a4"
+            elif b == 2:
+                osn_b = "a2a3"
+            elif b == 3:
+                osn_b = "a4a1"
+        return osn_a, osn_b
+
+trap = Trapecia(x1 = 1, y1 = 1, x2 = 2, y2 = 4, x3 = 4, y3 = 4,  x4 = 6, y4 = 1)
+osnov = trap.parall()
+print(osnov)
