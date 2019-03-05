@@ -93,7 +93,7 @@ class Trapecia:
 
         listcoeff = [ca1a2, ca3a4, ca2a3, ca4a1]
         equal = []
-        print("Угловые коэффициенты:    ", listcoeff)
+        print("Угловые коэффициенты:     ", listcoeff)
         for i in range(len(listcoeff)-1):
             for j in range(i+1, len(listcoeff)):
                 if listcoeff[i] == listcoeff[j]:
@@ -103,7 +103,7 @@ class Trapecia:
                     pass
         if not equal:
             print("Нет равных коэффициентов, а значит, нет параллельных сторон. Т.е. данный четырехугольник не трапеция")
-        return 
+        return
 
 trap = Trapecia(x1 = 3, y1 = 4, x2 = 1, y2 = 3, x3 = 4, y3 = 7,  x4 = 6, y4 = 9)
 trap.parall()
