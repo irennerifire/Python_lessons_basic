@@ -73,15 +73,38 @@ class Trapecia:
         return p
 
 # Площадь трапеции по четырем сторонам - нужно знать, какие стороны параллельны
+#S = (b+d)/2*sqrt(a**2 - (((d-b)**2+a**2-c**2)/2*(d-b))**2)     b || d
     def sq(self):
-        a, b, c, d = Trapecia.dlina(self)
-        p = Trapecia.per(self)
-        S = m.sqrt(p*(p - storona1)*(p - storona2)*(p - storona3))
+        osn = Trapecia.parall(self)
+        dlina = Trapecia.dlina(self)
+        osn_value = []
+        for el in osn:
+            if el == "a1a2":
+                osn_value.append(dlina[0])
+            elif el == "a2a3":
+                osn_value.append(dlina[1])
+            elif el == "a3a4":
+                osn_value.append(dlina[2])
+            elif el == "a4a1":
+                osn_value.append(dlina[3])
+        print("Значения длин параллельных оснований:     ", osn_value)
+        print(dlina)
+        ocn_b = osn_value[0]
+        ocn_d = osn_value[1]
+        notparal = []
+        for el2 in dlina:
+            if el2 != ocn_b and el2 != ocn_d:
+                notparal.append(el2)
+        ocn_a = notparal[0]
+        ocn_c = notparal[1]
+        print(notparal)
+        S_trap = (ocn_b+ocn_d)/2*(m.sqrt(abs(pow(ocn_a,2) - pow((pow((ocn_d-ocn_b), 2)+pow(ocn_a, 2)-pow(ocn_c, 2)/2*(ocn_d-ocn_b)), 2))))
+        return S_trap
 
 #Трапеция - фигура, у которой 2 стороны параллельны
 #Параллельность можно определеить по угловым коэффициентам k = (y2 - y1)/(x2 - x1)
     def coeff(a, b):
-        coef = (b[1]-a[1])/(b[0]-a[0])
+        coef = abs((b[1]-a[1])/(b[0]-a[0]))
         return coef
 
     def parall(self):
@@ -100,12 +123,14 @@ class Trapecia:
         for i in range(len(listcoeff)-1):
             for j in range(i+1, len(listcoeff)):
                 if listcoeff[i] == listcoeff[j]:
-                    equal = equal.append(listcoeff[j])
+                    equal.append(listcoeff[i])
+                    equal.append(listcoeff[j])
                     print(f"Есть одинаковые коэффициенты {listcoeff[i]} с индексом {i} и коэффициент {listcoeff[j]} с индексом {j}")
                     a = i
                     b = j
                 else:
                     pass
+        print(equal)
         if not equal:
             print("Нет равных коэффициентов, а значит, нет параллельных сторон. Т.е. данный четырехугольник не трапеция")
         else:
@@ -119,6 +144,8 @@ class Trapecia:
                 osn_a = "a4a1"
 
         if not equal:
+            print("Нет равных коэффициентов, а значит, нет параллельных сторон. Т.е. данный четырехугольник не трапеция")
+        else:
             if b == 0:
                 osn_b = "a1a2"
             elif b == 1:
@@ -127,8 +154,13 @@ class Trapecia:
                 osn_b = "a2a3"
             elif b == 3:
                 osn_b = "a4a1"
+            else:
+                pass
         return osn_a, osn_b
 
 trap = Trapecia(x1 = 1, y1 = 1, x2 = 2, y2 = 4, x3 = 4, y3 = 4,  x4 = 6, y4 = 1)
 osnov = trap.parall()
 print(osnov)
+trap.sq()
+S_trap = trap.sq()
+print("S = ", S_trap)
