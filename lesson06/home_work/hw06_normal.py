@@ -17,34 +17,65 @@
 # 5. Получить список всех Учителей, преподающих в указанном классе
 
 class Student:
-    def __init__(self, name = "Иван", sname = "Иванович", surname = "Иванов"):
+    def __init__(self, name = "Иван", sname = "Иванович", surname = "Иванов", age = 0):
         self.name = name
         self.sname = sname
         self.surname = surname
+        self.age = age
 
-class Mama:
+    def info():
+        print(f"Ученик {self.name} {self.surname}")
+        print(f"{self.age} лет")
+
+class Parent:
     def __init__(self, name = "", sname = "", surname = ""):
         self.name = name
         self.sname = sname
         self.surname = surname
 
-class Papa:
+class Mama(Parent):
     def __init__(self, name = "", sname = "", surname = ""):
-        self.name = name
-        self.sname = sname
-        self.surname = surname
+        super().__init__(name)
+        super().__init__(sname)
+        super().__init__(surname)
+class Papa(Parent):
+    def __init__(self, name = "", sname = "", surname = ""):
+        super().__init__(name)
+        super().__init__(sname)
+        super().__init__(surname)
 
-class Class:
-    def __init__(self, num = "1", letter = "A"):
+class School:
+    def __init__(self, schname = "", schnumber = ""):
+        self.name = name
+        self.number = number
+
+    def info():
+        print(f"School {name} number {number}")
+
+class Class(School):
+    def __init__(self, schname = "", schnumber = "", num = "1", letter = "A"):
+        super().__init__(schname)
+        super().__init__(schnumber)
         self.name = num
         self.sname = letter
 
-class Teacher:
+class Teacher(School):
     def __init__(self, name = "", sname = "", surname = ""):
         self.name = name
         self.sname = sname
         self.surname = surname
 
-class Subject:
+class Subject(School):
     def __init__(self, name = ""):
         self.name = name
+
+class Student(School, Parent):
+    def __init__(self, name = "Иван", sname = "Иванович", surname = "Иванов", age = 0):
+        self.name = name
+        self.sname = sname
+        super(Parent).__init__(surname)
+        self.age = age
+
+    def info():
+        print(f"Ученик {self.name} {self.surname}")
+        print(f"{self.age} лет")
