@@ -114,8 +114,36 @@ class Card:
         print('  '.join(map(str, line2)))
         print('  '.join(map(str, line3)))
         print("--------------------------------")
-
         # МОЖНО ПОПРОБОВАТЬ ЗАПИСЫВАТЬ ЗНАЧЕНИЯ В МАТРИЦУ И ВЫВОДИТЬ МАТРИЦУ!!!
+
+
+class Computer:
+    def __init__(self):
+        pass
+
+    def take(self):
+        computer_card = Card()
+        print("------------Карта компьютера--------------")
+        computer_card.card_print()
+        return computer_card
+
+
+class Igrok:
+    def __init__(self, name = ""):
+        self.name = Igrok.get_name(self)
+
+    def get_name(self):
+        name = input("Как изволите к Вам обращаться?    -   ")
+        return name
+
+    def take_card(self):
+        igrok_card = Card()
+        print("------------Ваша карта--------------")
+        igrok_card.card_print()
+        return igrok_card
+
+
+
 
 card = Card()
 #print(f"First card line:    {card.line1}")
