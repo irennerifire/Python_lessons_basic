@@ -65,7 +65,7 @@ class Bochonok:
         self.bochonki = Bochonok.spisok(self)
 
     def spisok(self):
-        bochonki = list(range(91))
+        bochonki = list(range(1, 92))
         return bochonki
 
     def choice(self):
@@ -116,6 +116,35 @@ class Card:
         print("--------------------------------")
         # МОЖНО ПОПРОБОВАТЬ ЗАПИСЫВАТЬ ЗНАЧЕНИЯ В МАТРИЦУ И ВЫВОДИТЬ МАТРИЦУ!!!
 
+    def cross_out_card(self, card_line, bochonok):
+        flag = 0
+        for i in range(len(card_line)):
+            if card_line[i] == bochonok:
+                card_line[i] = "-"
+                flag = 1
+        return card_line, flag
+
+    def num_line_count(self, line):
+        num_count = 0
+        for n in line:
+            if n != " " and n != "-":
+                num_count += 1
+        return num_count
+
+    def win_or_not(self, card):
+        line1 = card.line1
+        line2 = card.line2
+        line3 = card.line3
+        num1 = Card.num_line_count(self, line1)
+        num2 = Card.num_line_count(self, line2)
+        num3 = Card.num_line_count(self, line3)
+        win = ""
+        if num1 == 0 and num2 == 0 and num3 == 0:
+            win = "yes"
+        else:
+            win = "no"
+        return win
+
 
 class Computer:
     def __init__(self):
@@ -123,7 +152,7 @@ class Computer:
 
     def take(self):
         computer_card = Card()
-        print("------------Карта компьютера--------------")
+        print("---------Карта компьютера-----------")
         computer_card.card_print()
         return computer_card
 
@@ -143,13 +172,84 @@ class Igrok:
         return igrok_card
 
 
-
-
-card = Card()
-#print(f"First card line:    {card.line1}")
-#print(f"Second card line:    {card.line2}")
-#print(f"Third card line:    {card.line3}")
-card.card_print()
-
+person = Igrok()
+comp = Computer()
 boch = Bochonok()
-b = boch.choice()
+
+print("")
+print(f"Начинем игру, {person.name}!")
+print("")
+person_card = person.take_card()
+print("")
+computer_card = comp.take()
+print("")
+
+def step(person_card, computer_card, bochonok):
+    b = bochonok.choice()
+    print("------------Ваша карта--------------")
+    person_card.card_print()
+    print("")
+    print("---------Карта компьютера-----------")
+    computer_card.card_print()
+    print("")
+    computer_card.line1 = computer_card.cross_out_card(computer_card.line1, b)[0]
+    computer_card.line2 = computer_card.cross_out_card(computer_card.line2, b)[0]
+    computer_card.line3 = computer_card.cross_out_card(computer_card.line3, b)[0]
+
+    #действия пользователя
+    print("Посмотрите внимательно на свою карту. Если на ней есть числа, которые можно зачеркнуть, то введите цифру 1 - 'зачеркнуть', если нет - введите цифру 2 - 'продолжить'.")
+    move = input("Ваш выбор:    ")
+
+    try:
+        if move == "1":
+            line1 = person_card.cross_out_card(person_card.line1, b)
+            line2 = person_card.cross_out_card(person_card.line2, b)
+            line3 = person_card.cross_out_card(person_card.line3, b)
+
+            if line1[1] == 0 and line2[1] == 0 and line3[1] == 0:
+                print("Вы ошиблись! В Вашей карте не было чисел, равных номеру бочонка. Вы проиграли...")
+                raise SystemExit
+            else:
+                person_card.line1 = line1[0]
+                person_card.line2 = line2[0]
+                person_card.line3 = line3[0]
+                print("Ход сделан")
+
+        elif move == "2":
+            line1 = person_card.cross_out_card(person_card.line1, b)
+            line2 = person_card.cross_out_card(person_card.line2, b)
+            line3 = person_card.cross_out_card(person_card.line3, b)
+
+            if line1[1] == 1 or line2[1] == 1 or line3[1] == 1:
+                print("Вы ошиблись! В Вашей карте были числа, равные номеру бочонка. Вы проиграли...")
+                raise SystemExit
+            else:
+                print("Ход сделан")
+                pass
+        else:
+            print("Введен неверный вариант ответа!")
+            exit(0)
+    finally:
+        print(" ")
+
+
+def make_step(person, computer_card, person_card, bochonok):
+    cwin = computer_card.win_or_not(computer_card)
+    pwin = person_card.win_or_not(person_card)
+
+    if cwin == "yes":
+        print("Компьютер выиграл!")
+    elif pwin == "yes":
+        print(f"Вы, {person.name}, выиграли!")
+    else:
+        step(person_card, computer_card, bochonok)
+
+    return cwin, pwin
+
+step_flag = ["", ""]
+while step_flag[0] != "yes" or step_flag[1] != "yes":
+    step_flag=make_step(person, computer_card, person_card, boch)
+    if step_flag[0] == "yes":
+        break
+    elif step_flag[1] == "yes":
+        break
